@@ -19,6 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('provider', 50)->default('TDI')->comment('외부 연동 채널');
+            $table->unsignedTinyInteger('state')->default('0')->comment('사용자 상태(0:대기, 1:활성, 2:비활성)');
+            $table->string('login_ip', 15)->nullable()->comment('로그인 IP');
             $table->rememberToken();
             $table->timestamps();
         });
