@@ -14,7 +14,7 @@ class AlterOauthClietsTable extends Migration
     public function up()
     {
         Schema::table('oauth_clients', function (Blueprint $table) {
-            $table->unsignedBigInteger('provider_contents_id')->after('revoked');
+            $table->unsignedBigInteger('provider_contents_id')->nullable()->after('revoked');
         });
     }
 
