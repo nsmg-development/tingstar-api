@@ -6,6 +6,8 @@ use App\Repositories\Appointment\AppointmentRepository;
 use App\Repositories\Appointment\AppointmentRepositoryInterface;
 use App\Repositories\AppointmentBucket\AppointmentBucketRepository;
 use App\Repositories\AppointmentBucket\AppointmentBucketRepositoryInterface;
+use App\Repositories\Article\ArticleRepository;
+use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\Notification\NotificationRepository;
 use App\Repositories\Notification\NotificationRepositoryInterface;
 use App\Repositories\User\UserRepository;
@@ -24,6 +26,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
     }
 
     /**

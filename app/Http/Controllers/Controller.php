@@ -23,6 +23,6 @@ class Controller extends BaseController
      */
     protected function response(Collection $result): Response
     {
-        return response($this->makeResponse($result), $result->get('statusCode') ?? 500);
+        return response($this->makeResponse($result), $result->get('statusCode') ?? 200);
     }
 }

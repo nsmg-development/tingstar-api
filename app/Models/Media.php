@@ -11,13 +11,29 @@ class Media extends Model
     use HasFactory;
 
     protected $connection = 'curator9';
+    protected $table = 'medias';
 
     protected $hidden = [
         'created_at', 'updated_at'
     ];
 
+    public function scopeByMediaIdx($query, $media_idx)
+    {
+        return $query->where('media_idx', $media_idx);
+    }
+
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function keywords(): hasMany
+    {
+        return $this->hasMany(Keyword::class);
+    }
+
+    public function channels(): hasMany
+    {
+        return $this->hasMany(Channel::class);
     }
 }

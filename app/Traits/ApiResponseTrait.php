@@ -22,6 +22,7 @@ trait ApiResponseTrait
         return $result;
     }
 
+
     /**
      * @param $_data
      * @param null $_message
