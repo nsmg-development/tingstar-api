@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Article extends Model
 {
@@ -14,7 +15,7 @@ class Article extends Model
 
     protected $fillable = [
         'media_id', 'platform', 'type', 'keyword', 'channel', 'url', 'title', 'contents',
-        'thumbnail_url', 'azure_thumbnail_url', 'thumbnail_width', 'thumbnail_height', 'hashtag', 'state', 'date'
+        'thumbnail_url', 'storage_thumbnail_url', 'thumbnail_width', 'thumbnail_height', 'hashtag', 'state', 'date'
     ];
 
     protected $hidden = [
@@ -24,6 +25,11 @@ class Article extends Model
     public function scopeActive($query)
     {
         return $query->where('state', true);
+    }
+
+    public function articleOwner(): HasOne
+    {
+        return $this->hasOne(ArticleOwner::class, 'id', 'article_owner_id');
     }
 
     public function articleMedias(): HasMany

@@ -20,11 +20,18 @@ class ArticleRepository implements ArticleRepositoryInterface
         $this->article = $article;
     }
 
+    /**
+     * 수집된 자료 리스트 with 게시자 및 미디어 정보
+     *
+     * @param Request $request
+     * @return Collection
+     */
     public function get(Request $request): Collection
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
-            'media_idx' => 'required|integer',
+            'media_id' => 'integer',
+            'media_idx' => 'integer',
             'page' => 'integer',
             'per_page' => 'integer'
         ]);
@@ -36,8 +43,16 @@ class ArticleRepository implements ArticleRepositoryInterface
             ]);
         }
 
-        $media = $this->media->byMediaIdx($request->media_idx)->first();
-        if (!$media) {
+        $media_id = $request->input('media_id', null);
+        if ($request->has('media_idx') && !$media_id) {
+            $media = $this->media->where([
+                'media_idx' => $request->media_idx
+            ])->first();
+
+            $media_id = $media->id;
+        }
+
+        if (!$media_id) {
             return collect([
                 'statusCode' => 404,
                 'message' => '매체 정보가 존재하지 않습니다.'
@@ -48,16 +63,18 @@ class ArticleRepository implements ArticleRepositoryInterface
         $perPage = $request->input('per_page', 10);
 
         $articleModel = $this->article->active()
-            ->where('media_id', $media->id)
-            // ->with(['articleOwner', 'articleMedias']);
-            ->with('articleMedias');
+            ->where('media_id', $media_id)
+            ->with(['articleOwner', 'articleMedias'])
+            ->orDoesntHave('articleOwner','articleMedias');
 
-        $totalCount = $articleModel->count();
+        $totalArticles = $articleModel->get();
+        $totalCount = $totalArticles->count();
+
         $articles = $articleModel->forPage($page, $perPage)->get();
 
         return collect(
             [
-                'totalCount' => $articleModel->count(),
+                'totalCount' => $totalCount,
                 'articles' => $articles
             ]
         );
