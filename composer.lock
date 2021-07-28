@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6951d9f4d1fca1a833d70e6928818e08",
+    "content-hash": "48b8986a9c00ed3783a2f458c4811177",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2127,6 +2127,53 @@
                 }
             ],
             "time": "2021-07-23T07:42:52+00:00"
+        },
+        {
+            "name": "mratiebatie/laravel-repositories",
+            "version": "1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MrAtiebatie/laravel-repositories.git",
+                "reference": "6ba79d974dc7aa8881bf1508fdc9e9e632a46be2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MrAtiebatie/laravel-repositories/zipball/6ba79d974dc7aa8881bf1508fdc9e9e632a46be2",
+                "reference": "6ba79d974dc7aa8881bf1508fdc9e9e632a46be2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^5.0|^6.0|^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MrAtiebatie\\RepositoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MrAtiebatie\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sjors van Dongen",
+                    "email": "sitesjors@hotmail.com"
+                }
+            ],
+            "description": "Laravel repositories using the native Eloquent functions",
+            "support": {
+                "issues": "https://github.com/MrAtiebatie/laravel-repositories/issues",
+                "source": "https://github.com/MrAtiebatie/laravel-repositories/tree/1.0.9"
+            },
+            "time": "2020-10-29T15:32:54+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -8678,5 +8725,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
