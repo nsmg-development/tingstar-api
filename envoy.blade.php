@@ -22,7 +22,7 @@ $environment = isset($env) ? $env : "development";
 $release_branch = isset($branch) ? $branch : "develop";
 
 $username = 'tdi';                       // username at the server
-$remote = 'git@github.com-plip:nsmg-development/curator9-api-app.git';   // github repository to clone
+$remote = 'git@github.com-curator9:nsmg-development/curator9-api.git';   // github repository to clone
 $base_dir = "/home/tdi/curator9-api";        // document that holds projects
 $project_name = "curator9-api";        // project name
 $project_root = "{$base_dir}/{$project_name}";     // project root
