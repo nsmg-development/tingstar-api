@@ -25,5 +25,6 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('client')->group(function () {
         Route::get('articles', [ArticleController::class, 'index'])->name('api.article.list');
+        Route::get('articles/{article_id}', [ArticleController::class, 'show'])->name('api.article.show');
     });
 });

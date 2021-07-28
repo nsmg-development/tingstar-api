@@ -26,7 +26,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      * @param Request $request
      * @return Collection
      */
-    public function get(Request $request): Collection
+    public function getList(Request $request): Collection
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
@@ -44,15 +44,17 @@ class ArticleRepository implements ArticleRepositoryInterface
         }
 
         $media_id = $request->input('media_id', null);
-        if ($request->has('media_idx') && !$media_id) {
-            $media = $this->media->where([
-                'media_idx' => $request->media_idx
-            ])->first();
+        $media_idx = $request->input('media_idx', null);
+        $media = $this->media->where(function($query) use($media_id, $media_idx){
+            if ($media_id) {
+                $query->where('id', $media_id);
+            }
+            if ($media_idx) {
+                $query->where('media_idx', $media_idx);
+            }
+        })->first();
 
-            $media_id = $media->id;
-        }
-
-        if (!$media_id) {
+        if (!$media) {
             return collect([
                 'statusCode' => 404,
                 'message' => '매체 정보가 존재하지 않습니다.'
@@ -63,7 +65,7 @@ class ArticleRepository implements ArticleRepositoryInterface
         $perPage = $request->input('per_page', 10);
 
         $articleModel = $this->article->active()
-            ->where('media_id', $media_id)
+            ->where('media_id', $media->id)
             ->with(['articleOwner', 'articleMedias'])
             ->orDoesntHave('articleOwner','articleMedias');
 
@@ -78,5 +80,28 @@ class ArticleRepository implements ArticleRepositoryInterface
                 'articles' => $articles
             ]
         );
+    }
+
+    /**
+     * 수집된 자료 상세보기 with 게시자 및 미디어 정보
+     *
+     * @param Request $request
+     * @param int $article_id
+     * @return Collection
+     */
+    public function getDetail(Request $request, int $article_id): Collection
+    {
+        $article = $this->article->where('id', $article_id)
+            ->with(['articleOwner', 'articleMedias'])
+            ->first();
+
+        if (!$article) {
+            return collect([
+                'statusCode' => 404,
+                'message' => '상세 정보가 존재하지 않습니다.'
+            ]);
+        }
+
+        return collect($article);
     }
 }

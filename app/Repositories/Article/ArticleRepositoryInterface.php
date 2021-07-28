@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 
 interface ArticleRepositoryInterface
 {
-    public function get(Request $request): Collection;
+    public function getList(Request $request): Collection;
+    public function getDetail(Request $request, int $article_id): Collection;
 }
 
