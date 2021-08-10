@@ -12,6 +12,10 @@ class PlatformAccount extends Model
 
     protected $connection = 'curator9';
 
+    protected $fillable = [
+        'platform_id', 'login_id', 'login_password', 'token', 'user_id', 'state', 'use_count'
+    ];
+
     protected $hidden = [
         'created_at', 'updated_at'
     ];

@@ -26,7 +26,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      * @param Request $request
      * @return Collection
      */
-    public function getList(Request $request): Collection
+    public function list(Request $request): Collection
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
@@ -89,7 +89,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      * @param int $article_id
      * @return Collection
      */
-    public function getDetail(Request $request, int $article_id): Collection
+    public function show(Request $request, int $article_id): Collection
     {
         $article = $this->article->where('id', $article_id)
             ->with(['articleOwner', 'articleMedias'])

@@ -23,7 +23,10 @@ class UserController extends Controller
     }
 
     /**
+     * 사용자 등록하기
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request): Response
