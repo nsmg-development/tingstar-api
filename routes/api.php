@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\v1\ArticleController;
+use App\Http\Controllers\Api\v1\PlatformAccountController;
+use App\Http\Controllers\Api\v1\PlatformController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +29,15 @@ Route::prefix('v1')->group(function () {
         Route::get('articles', [ArticleController::class, 'index'])->name('api.article.list');
         Route::get('articles/{article_id}', [ArticleController::class, 'show'])->name('api.article.show');
     });
+
+    // Route::middleware('auth')->group(function(){
+        Route::prefix('platforms')->group(function () {
+            Route::get('', [PlatformController::class, 'index'])->name('api.platform.list');
+            Route::get('/{platform_id}', [PlatformController::class, 'show'])->name('api.platform.show');
+        });
+
+        Route::prefix('platform_accounts')->group(function () {
+            Route::put('/{platform_account_id}', [PlatformAccountController::class, 'update'])->name('api.platform_account.update');
+        });
+    // });
 });

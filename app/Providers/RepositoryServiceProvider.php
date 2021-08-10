@@ -2,18 +2,14 @@
 
 namespace App\Providers;
 
-use App\Repositories\Appointment\AppointmentRepository;
-use App\Repositories\Appointment\AppointmentRepositoryInterface;
-use App\Repositories\AppointmentBucket\AppointmentBucketRepository;
-use App\Repositories\AppointmentBucket\AppointmentBucketRepositoryInterface;
-use App\Repositories\Article\ArticleRepository;
 use App\Repositories\Article\ArticleRepositoryInterface;
-use App\Repositories\Notification\NotificationRepository;
-use App\Repositories\Notification\NotificationRepositoryInterface;
+use App\Repositories\Article\ArticleRepository;
+use App\Repositories\Platform\PlatformAccountRepository;
+use App\Repositories\Platform\PlatformAccountRepositoryInterface;
+use App\Repositories\Platform\PlatformRepository;
+use App\Repositories\Platform\PlatformRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Repositories\UserFriend\UserFriendRepository;
-use App\Repositories\UserFriend\UserFriendRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -27,6 +23,8 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
+        $this->app->bind(PlatformRepositoryInterface::class, PlatformRepository::class);
+        $this->app->bind(PlatformAccountRepositoryInterface::class, PlatformAccountRepository::class);
     }
 
     /**

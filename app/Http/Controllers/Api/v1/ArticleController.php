@@ -20,11 +20,12 @@ class ArticleController extends Controller
      * 수집된 자료 리스트 with 게시자 및 미디어 정보
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): Response
     {
-        $result = $this->article->getList($request);
+        $result = $this->article->list($request);
 
         return $this->response($result);
     }
@@ -35,11 +36,12 @@ class ArticleController extends Controller
      *
      * @param Request $request
      * @param $article_id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $article_id): Response
     {
-        $result = $this->article->getDetail($request, $article_id);
+        $result = $this->article->show($request, $article_id);
 
         return $this->response($result);
     }
