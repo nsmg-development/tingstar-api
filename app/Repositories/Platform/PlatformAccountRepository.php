@@ -58,6 +58,13 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
         );
     }
 
+    /**
+     * 플랫폼 계정 정보 등록
+     *
+     * @param Request $request
+     *
+     * @return Collection
+     */
     public function store(Request $request): Collection
     {
         // 유효성 검사
@@ -98,6 +105,14 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
         }
     }
 
+    /**
+     * 플랫폼 계정정보 업데이트
+     *
+     * @param Request $request
+     * @param int $platform_account_id
+     *
+     * @return Collection
+     */
     public function update(Request $request, $platform_account_id): Collection
     {
         // 유효성 검사
@@ -132,6 +147,7 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
                 'login_password' => $request->login_password,
                 'token' => $request->token,
                 'user_id' => $request->user_id,
+                'state' => $request->state
             ]);
 
             DB::commit();
