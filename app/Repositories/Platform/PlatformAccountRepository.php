@@ -140,14 +140,13 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
         try {
             DB::beginTransaction();
 
-            tap($platformAccount)->update([
-                'platform_id' => $request->platform_id,
-                'login_id' => $request->login_id,
-                'login_password' => $request->login_password,
-                'token' => $request->token ?? $platformAccount->token,
-                'user_id' => $request->user_id ?? $platformAccount->user_id,
-                'state' => $request->state ?? $platformAccount->state,
-            ]);
+            $platformAccount->platform_id = $request->platform_id;
+            $platformAccount->login_id = $request->login_id;
+            $platformAccount->login_password = $request->login_password;
+            $platformAccount->token = $request->token;
+            $platformAccount->user_id = $request->user_id;
+            $platformAccount->state = $request->state;
+            $platformAccount->update();
 
             DB::commit();
 

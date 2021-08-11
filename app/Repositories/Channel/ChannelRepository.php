@@ -115,13 +115,12 @@ class ChannelRepository implements ChannelRepositoryInterface
         try {
             DB::beginTransaction();
 
-            tap($channel)->update([
-                'media_id' => $request->media_id,
-                'platform' => $request->platform,
-                'name' => $request->name,
-                'channel' => $request->channel,
-                'state' => $request->state ?? $channel->state,
-            ]);
+            $channel->media_id = $request->media_id;
+            $channel->platform = $request->platform;
+            $channel->name = $request->name;
+            $channel->channel = $request->channel;
+            $channel->state = $request->state;
+            $channel->update();
 
             DB::commit();
 

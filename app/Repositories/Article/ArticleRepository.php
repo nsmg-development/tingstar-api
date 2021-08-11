@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ArticleRepository implements ArticleRepositoryInterface
@@ -103,5 +104,54 @@ class ArticleRepository implements ArticleRepositoryInterface
         }
 
         return collect($article);
+    }
+
+    /**
+     * 수집된 자료 상태 업데이트
+     *
+     * @param Request $request
+     * @param int $article_id
+     *
+     * @return Collection
+     */
+    public function setState(Request $request, int $article_id): Collection
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'state' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return collect([
+                'statusCode' => 400,
+                'message' => '파라미터 오류가 발생하였습니다.'
+            ]);
+        }
+
+        $article = $this->article->where('id', $article_id)->first();
+        if (!$article) {
+            return collect([
+                'statusCode' => 404,
+                'message' => '상세 정보가 존재하지 않습니다.'
+            ]);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $article->state = $request->state;
+            $article->update();
+
+            DB::commit();
+
+            return collect($article);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return collect([
+                'statusCode' => 500,
+                'message' => '오류가 발생하였습니다.'
+            ]);
+        }
     }
 }

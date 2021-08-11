@@ -45,4 +45,19 @@ class ArticleController extends Controller
 
         return $this->response($result);
     }
+
+    /**
+     * 수집된 자료 상태 업데이트
+     *
+     * @param Request $request
+     * @param $article_id
+     *
+     * @return Response
+     */
+    public function setState(Request $request, $article_id): Response
+    {
+        $result = $this->article->setState($request, $article_id);
+
+        return $this->response($result);
+    }
 }
