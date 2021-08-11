@@ -60,4 +60,11 @@ class ArticleController extends Controller
 
         return $this->response($result);
     }
+
+    public function setMultipleState(Request $request): Response
+    {
+        $result = $this->article->setMultipleState($request);
+
+        return $this->response($result);
+    }
 }
