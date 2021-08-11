@@ -154,4 +154,48 @@ class ArticleRepository implements ArticleRepositoryInterface
             ]);
         }
     }
+
+    public function setMultipleState(Request $request): Collection
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'article_ids' => 'required|array|min:1',
+            'state' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return collect([
+                'statusCode' => 400,
+                'message' => '파라미터 오류가 발생하였습니다.'
+            ]);
+        }
+
+        $selectedArticles = $this->article->whereIn('id', $request->article_ids);
+
+        if (!$selectedArticles->count() > 0) {
+            return collect([
+                'statusCode' => 404,
+                'message' => '상세 정보가 존재하지 않습니다.'
+            ]);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $selectedArticles->update([
+                'state' => $request->state
+            ]);
+
+            // DB::commit();
+
+            return collect($selectedArticles->get());
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return collect([
+                'statusCode' => 500,
+                'message' => '오류가 발생하였습니다.'
+            ]);
+        }
+    }
 }
