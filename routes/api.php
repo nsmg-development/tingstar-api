@@ -30,6 +30,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('client')->group(function () {
         Route::get('articles', [ArticleController::class, 'index'])->name('api.article.list');
         Route::get('articles/{article_id}', [ArticleController::class, 'show'])->name('api.article.show');
+        Route::put('articles/{article_id}/state', [ArticleController::class, 'setState'])->name('api.article.show');
     });
 
     // Route::middleware('auth')->group(function(){
@@ -38,7 +39,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/{platform_id}', [PlatformController::class, 'show'])->name('api.platform.show');
         });
 
-        Route::prefix('platform_accounts')->group(function () {
+        Route::prefix('platform-accounts')->group(function () {
             Route::post('', [PlatformAccountController::class, 'store'])->name('api.platform_account.store');
             Route::put('/{platform_account_id}', [PlatformAccountController::class, 'update'])->name('api.platform_account.update');
         });

@@ -9,5 +9,6 @@ interface ArticleRepositoryInterface
 {
     public function list(Request $request): Collection;
     public function show(Request $request, int $article_id): Collection;
+    public function setState(Request $request, int $article_id): Collection;
 }
 

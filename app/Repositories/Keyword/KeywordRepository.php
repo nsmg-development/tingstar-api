@@ -112,12 +112,10 @@ class KeywordRepository implements KeywordRepositoryInterface
         try {
             DB::beginTransaction();
 
-            tap($keyword)->update([
-                'media_id' => $request->media_id,
-                'keyword' => $request->keyword,
-                'platform' => $request->platform,
-                'state' => $request->state ?? $keyword->state,
-            ]);
+            $keyword->media_id = $request->media_id;
+            $keyword->keyword = $request->keyword;
+            $keyword->platform = $request->platform;
+            $keyword->update();
 
             DB::commit();
 
