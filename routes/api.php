@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\v1\ArticleController;
+use App\Http\Controllers\Api\v1\ChannelController;
+use App\Http\Controllers\Api\v1\KeywordController;
 use App\Http\Controllers\Api\v1\PlatformAccountController;
 use App\Http\Controllers\Api\v1\PlatformController;
 use App\Http\Controllers\Api\v1\UserController;
@@ -37,7 +39,18 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('platform_accounts')->group(function () {
+            Route::post('', [PlatformAccountController::class, 'store'])->name('api.platform_account.store');
             Route::put('/{platform_account_id}', [PlatformAccountController::class, 'update'])->name('api.platform_account.update');
+        });
+
+        Route::prefix('channels')->group(function () {
+            Route::post('', [ChannelController::class, 'store'])->name('api.channel.store');
+            Route::put('/{channel_id}', [ChannelController::class, 'update'])->name('api.channel.update');
+        });
+
+        Route::prefix('keywords')->group(function () {
+            Route::post('', [KeywordController::class, 'store'])->name('api.keyword.store');
+            Route::put('/{keyword_id}', [KeywordController::class, 'update'])->name('api.keyword.update');
         });
     // });
 });

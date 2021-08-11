@@ -84,7 +84,7 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
         try {
             DB::beginTransaction();
 
-            $platformAccount = $this->platformAccount->insert([
+            $platformAccount = $this->platformAccount->create([
                 'platform_id' => $request->platform_id,
                 'login_id' => $request->login_id,
                 'login_password' => $request->login_password,
@@ -137,7 +137,6 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
             ]);
         }
 
-
         try {
             DB::beginTransaction();
 
@@ -145,9 +144,9 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
                 'platform_id' => $request->platform_id,
                 'login_id' => $request->login_id,
                 'login_password' => $request->login_password,
-                'token' => $request->token,
-                'user_id' => $request->user_id,
-                'state' => $request->state
+                'token' => $request->token ?? $platformAccount->token,
+                'user_id' => $request->user_id ?? $platformAccount->user_id,
+                'state' => $request->state ?? $platformAccount->state,
             ]);
 
             DB::commit();

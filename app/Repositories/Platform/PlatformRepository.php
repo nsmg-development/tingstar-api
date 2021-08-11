@@ -33,7 +33,7 @@ class PlatformRepository implements PlatformRepositoryInterface
         if (!count($platforms) > 0) {
             return collect([
                 'statusCode' => 404,
-                'message' => '매체 정보가 존재하지 않습니다.'
+                'message' => '플랫폼 정보가 존재하지 않습니다.'
             ]);
         }
 

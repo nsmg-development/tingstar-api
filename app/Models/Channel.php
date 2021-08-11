@@ -11,6 +11,10 @@ class Channel extends Model
 
     protected $connection = 'curator9';
 
+    protected $fillable = [
+        'media_id', 'platform', 'name', 'channel', 'state'
+    ];
+
     protected $hidden = [
         'created_at', 'updated_at'
     ];

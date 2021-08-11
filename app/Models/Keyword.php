@@ -11,6 +11,10 @@ class Keyword extends Model
 
     protected $connection = 'curator9';
 
+    protected $fillable = [
+        'media_id', 'keyword', 'platform', 'state'
+    ];
+
     protected $hidden = [
         'created_at', 'updated_at'
     ];

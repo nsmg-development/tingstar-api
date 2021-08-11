@@ -9,6 +9,6 @@ interface PlatformAccountRepositoryInterface
 {
     public function list(Request $request): Collection;
     public function store(Request $request): Collection;
-    public function update(Request $request, $platform_account_id): Collection;
+    public function update(Request $request, int $platform_account_id): Collection;
 }
 

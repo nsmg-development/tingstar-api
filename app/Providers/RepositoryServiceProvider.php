@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\Article\ArticleRepository;
+use App\Repositories\Channel\ChannelRepository;
+use App\Repositories\Channel\ChannelRepositoryInterface;
+use App\Repositories\Keyword\KeywordRepository;
+use App\Repositories\Keyword\KeywordRepositoryInterface;
 use App\Repositories\Platform\PlatformAccountRepository;
 use App\Repositories\Platform\PlatformAccountRepositoryInterface;
 use App\Repositories\Platform\PlatformRepository;
@@ -25,6 +29,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
         $this->app->bind(PlatformRepositoryInterface::class, PlatformRepository::class);
         $this->app->bind(PlatformAccountRepositoryInterface::class, PlatformAccountRepository::class);
+        $this->app->bind(ChannelRepositoryInterface::class, ChannelRepository::class);
+        $this->app->bind(KeywordRepositoryInterface::class, KeywordRepository::class);
     }
 
     /**
