@@ -25,6 +25,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      * 수집된 자료 리스트 with 게시자 및 미디어 정보
      *
      * @param Request $request
+     *
      * @return Collection
      */
     public function list(Request $request): Collection
@@ -34,7 +35,9 @@ class ArticleRepository implements ArticleRepositoryInterface
             'media_id' => 'integer',
             'media_idx' => 'integer',
             'page' => 'integer',
-            'per_page' => 'integer'
+            'per_page' => 'integer',
+            'platform' => 'string',
+            'search' => 'string',
         ]);
 
         if ($validator->fails()) {
@@ -46,7 +49,7 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         $media_id = $request->input('media_id', null);
         $media_idx = $request->input('media_idx', null);
-        $media = $this->media->where(function($query) use($media_id, $media_idx){
+        $media = $this->media->where(function ($query) use ($media_id, $media_idx) {
             if ($media_id) {
                 $query->where('id', $media_id);
             }
@@ -67,8 +70,18 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         $articleModel = $this->article->active()
             ->where('media_id', $media->id)
+            ->where(function ($query) use ($request) {
+                if ($request->has('platform')) {
+                    $query->where('platform', $request->platform);
+                }
+                if ($request->has('search')) {
+                    $query->where('hashtag', 'like', "%$request->search%")
+                        ->orWhere('title', 'like', "%$request->search%")
+                        ->orWhere('contents', 'like', "%$request->search%");
+                }
+            })
             ->with(['articleOwner', 'articleMedias'])
-            ->orDoesntHave('articleOwner','articleMedias');
+            ->orDoesntHave('articleOwner', 'articleMedias');
 
         $totalArticles = $articleModel->get();
         $totalCount = $totalArticles->count();
@@ -88,6 +101,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      *
      * @param Request $request
      * @param int $article_id
+     *
      * @return Collection
      */
     public function show(Request $request, int $article_id): Collection
