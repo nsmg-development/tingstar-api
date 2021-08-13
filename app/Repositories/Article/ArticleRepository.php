@@ -72,7 +72,8 @@ class ArticleRepository implements ArticleRepositoryInterface
             ->where('media_id', $media->id)
             ->where(function ($query) use ($request) {
                 if ($request->has('platform')) {
-                    $query->where('platform', $request->platform);
+                    $platform_arr = explode('#', $request->platform);
+                    $query->whereIn('platform', $platform_arr);
                 }
                 if ($request->has('search')) {
                     $query->where('hashtag', 'like', "%$request->search%")
