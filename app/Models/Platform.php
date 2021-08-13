@@ -16,9 +16,13 @@ class Platform extends Model
         'created_at', 'updated_at'
     ];
 
-    public function platformAccounts(): hasMany
+    public function platformAccounts(bool $value = true): hasMany
     {
-        return $this->hasMany(PlatformAccount::class)
-            ->where('platform_accounts.state', '=', true);
+        if ($value) {
+            return $this->hasMany(PlatformAccount::class)
+                ->where('platform_accounts.state', '=', $value);
+        }
+
+        return $this->hasMany(PlatformAccount::class);
     }
 }
