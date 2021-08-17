@@ -90,6 +90,7 @@ class PlatformAccountRepository implements PlatformAccountRepositoryInterface
                 'login_password' => $request->login_password,
                 'token' => $request->token,
                 'user_id' => $request->user_id,
+                'state' => $request->state,
             ]);
 
             DB::commit();
