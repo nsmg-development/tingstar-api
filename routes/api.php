@@ -32,6 +32,7 @@ Route::prefix('v1')->group(function () {
         Route::put('articles', [ArticleController::class, 'setMultipleState'])->name('api.article.set_multiple_state');
         Route::get('articles/{article_id}', [ArticleController::class, 'show'])->name('api.article.show');
         Route::put('articles/{article_id}/state', [ArticleController::class, 'setState'])->name('api.article.set_state');
+        Route::post('articles/{article_id}/{behavior_type}', [ArticleController::class, 'setArticleBehavior'])->name('api.article.set_behavior');
     });
 
     // Route::middleware('auth')->group(function(){

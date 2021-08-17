@@ -81,7 +81,7 @@ class ArticleRepository implements ArticleRepositoryInterface
                         ->orWhere('contents', 'like', "%$request->search%");
                 }
             })
-            ->with(['articleOwner', 'articleMedias'])
+            ->with(['articleOwner', 'articleMedias', 'articleDetail', 'articleComments'])
             ->orDoesntHave('articleOwner', 'articleMedias');
 
         $totalArticles = $articleModel->get();
