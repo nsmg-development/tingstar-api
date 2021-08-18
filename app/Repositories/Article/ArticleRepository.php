@@ -83,9 +83,9 @@ class ArticleRepository implements ArticleRepositoryInterface
                     $query->whereRaw("MATCH(contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
                 }
             })
-            ->has('articleMedias')
-            ->with(['articleMedias', 'articleDetail', 'articleComments'])
-            ->orderBy('id', 'DESC');
+            // ->has('articleMedias')
+            // ->with(['articleMedias', 'articleDetail', 'articleComments'])
+            ->orderBy('date', 'DESC');
 
         $articles = $articleModel->paginate($perPage);
 
