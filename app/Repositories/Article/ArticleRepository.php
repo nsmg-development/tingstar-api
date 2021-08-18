@@ -73,26 +73,26 @@ class ArticleRepository implements ArticleRepositoryInterface
             ->where(function ($query) use ($request) {
                 if ($request->has('platform')) {
                     $platform_arr = explode('#', $request->platform);
+                    unset($platform_arr[0]);
                     $query->whereIn('platform', $platform_arr);
                 }
                 if ($request->has('search')) {
-                    $query->where('hashtag', 'like', "%$request->search%")
-                        ->orWhere('title', 'like', "%$request->search%")
-                        ->orWhere('contents', 'like', "%$request->search%");
+                    $search_arr = explode('#', $request->search);
+                    unset($search_arr[0]);
+
+                    $query->whereRaw("MATCH(contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
                 }
             })
-            ->with(['articleOwner', 'articleMedias', 'articleDetail', 'articleComments'])
-            ->orDoesntHave('articleOwner', 'articleMedias');
+            ->has('articleMedias')
+            ->with(['articleMedias', 'articleDetail', 'articleComments'])
+            ->orderBy('id', 'DESC');
 
-        $totalArticles = $articleModel->get();
-        $totalCount = $totalArticles->count();
-
-        $articles = $articleModel->forPage($page, $perPage)->get();
+        $articles = $articleModel->paginate($perPage);
 
         return collect(
             [
-                'totalCount' => $totalCount,
-                'articles' => $articles
+                'totalCount' => $articles->total(),
+                'articles' => $articles->items()
             ]
         );
     }
