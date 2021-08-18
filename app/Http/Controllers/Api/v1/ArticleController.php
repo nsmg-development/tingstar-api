@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Article\ArticleDetailRepositoryInterface;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,10 +11,15 @@ use Illuminate\Http\Response;
 class ArticleController extends Controller
 {
     protected ArticleRepositoryInterface $article;
+    protected ArticleDetailRepositoryInterface $articleDetail;
 
-    public function __construct(ArticleRepositoryInterface $article)
+    public function __construct(
+        ArticleRepositoryInterface $article,
+        ArticleDetailRepositoryInterface  $articleDetail
+    )
     {
         $this->article = $article;
+        $this->articleDetail = $articleDetail;
     }
 
     /**
@@ -61,9 +67,32 @@ class ArticleController extends Controller
         return $this->response($result);
     }
 
+    /**
+     * 수집된 자료 상태 업데이트(멀티)
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function setMultipleState(Request $request): Response
     {
         $result = $this->article->setMultipleState($request);
+
+        return $this->response($result);
+    }
+
+    /**
+     * 수집된 자료 좋아요/싫어요 토글
+     *
+     * @param Request $request
+     * @param $article_id
+     * @param $behavior_type
+     *
+     * @return Response
+     */
+    public function setArticleBehavior(Request $request, $article_id, $behavior_type): Response
+    {
+        $result = $this->articleDetail->toggleBehavior($request, $article_id, $behavior_type);
 
         return $this->response($result);
     }

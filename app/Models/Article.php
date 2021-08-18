@@ -36,4 +36,14 @@ class Article extends Model
     {
         return $this->hasMany(ArticleMedia::class, 'article_id', 'id');
     }
+
+    public function articleComments(): HasMany
+    {
+        return $this->hasMany(ArticleComment::class, 'article_id', 'id')->orderBy('id', 'DESC');
+    }
+
+    public function articleDetail(): HasOne
+    {
+        return $this->hasOne(ArticleDetail::class, 'article_id', 'id');
+    }
 }
