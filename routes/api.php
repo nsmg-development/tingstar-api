@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\v1\ArticleController;
 use App\Http\Controllers\Api\v1\ChannelController;
 use App\Http\Controllers\Api\v1\KeywordController;
+use App\Http\Controllers\Api\v1\MediaController;
 use App\Http\Controllers\Api\v1\PlatformAccountController;
 use App\Http\Controllers\Api\v1\PlatformController;
 use App\Http\Controllers\Api\v1\UserController;
@@ -54,6 +55,11 @@ Route::prefix('v1')->group(function () {
         Route::prefix('keywords')->group(function () {
             Route::post('', [KeywordController::class, 'store'])->name('api.keyword.store');
             Route::put('/{keyword_id}', [KeywordController::class, 'update'])->name('api.keyword.update');
+        });
+
+        Route::prefix('medias')->group(function () {
+            Route::get('', [MediaController::class, 'index'])->name('api.media.list');
+            Route::get('/{media_id}', [MediaController::class, 'show'])->name('api.media.show');
         });
     // });
 });

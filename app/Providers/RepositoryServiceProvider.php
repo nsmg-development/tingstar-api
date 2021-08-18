@@ -10,6 +10,8 @@ use App\Repositories\Channel\ChannelRepository;
 use App\Repositories\Channel\ChannelRepositoryInterface;
 use App\Repositories\Keyword\KeywordRepository;
 use App\Repositories\Keyword\KeywordRepositoryInterface;
+use App\Repositories\Media\MediaRepository;
+use App\Repositories\Media\MediaRepositoryInterface;
 use App\Repositories\Platform\PlatformAccountRepository;
 use App\Repositories\Platform\PlatformAccountRepositoryInterface;
 use App\Repositories\Platform\PlatformRepository;
@@ -34,6 +36,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ChannelRepositoryInterface::class, ChannelRepository::class);
         $this->app->bind(KeywordRepositoryInterface::class, KeywordRepository::class);
         $this->app->bind(ArticleDetailRepositoryInterface::class, ArticleDetailRepository::class);
+        $this->app->bind(MediaRepositoryInterface::class, MediaRepository::class);
     }
 
     /**
