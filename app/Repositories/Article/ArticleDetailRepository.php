@@ -70,20 +70,27 @@ class ArticleDetailRepository implements ArticleDetailRepositoryInterface
         try {
             DB::beginTransaction();
 
+            // 수집내용에 대한 관계 테이블이 없다면 생성
+            if (!$articleDetail) {
+                $articleDetail = $this->articleDetail->create([
+                    'article_id' => $article_id
+                ]);
+            }
+
             if ($articleDetailLog) {
                 // 좋아요 한 이력이 존재하면 로그에서 삭제 후 좋아요 -1
                 $articleDetailLog->delete();
 
-                $articleDetail->decrement($articleDetailLogType);
+                tap($articleDetail)->decrement($articleDetailLogType);
             } else {
                 // 좋아요 한 이력이 없다면 로그에서 추가 후 좋아요 +1
-                $articleDetailLog->create([
+                $this->articleDetailLog->create([
                     'article_id' => $request->article_id,
                     'user_id' => $request->user_id,
                     'type' => $articleDetailLogType
                 ]);
 
-                $articleDetail->increment($articleDetailLogType);
+                tap($articleDetail)->increment($articleDetailLogType);
             }
 
             DB::commit();
