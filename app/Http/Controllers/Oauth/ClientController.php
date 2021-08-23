@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Laravel\Passport\Client;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Http\Rules\RedirectRule;
@@ -99,10 +100,28 @@ class ClientController extends Controller
             'confidential' => 'boolean',
         ])->validate();
 
-        $client = $this->clients->create(
-            $request->user()->getAuthIdentifier(), $request->name, $request->redirect,
-            null, false, false, (bool) $request->input('confidential', true)
-        );
+        // $client = $this->clients->create(
+        //     $request->user()->getAuthIdentifier(), $request->name, $request->redirect,
+        //     null, false, false, (bool) $request->input('confidential', true)
+        // );
+
+        $confidential = (bool) $request->input('confidential', true);
+        $personal_access_client = (bool) $request->input('personal_access_client', false);
+        $password_client = (bool) $request->input('password_client', false);
+
+        $client = Passport::client()->forceFill([
+            'user_id' => $request->user()->getAuthIdentifier(),
+            'name' => $request->name,
+            'secret' => ($confidential || $personal_access_client) ? Str::random(40) : null,
+            'provider' => $request->provider,
+            'redirect' => $request->redirect,
+            'personal_access_client' => $personal_access_client,
+            'password_client' => $password_client,
+            'revoked' => false,
+        ]);
+
+        $client->save();
+
 
         if (Passport::$hashesClientSecrets) {
             return ['plainSecret' => $client->plainSecret] + $client->toArray();

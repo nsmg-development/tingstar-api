@@ -65,11 +65,14 @@ class ArticleRepository implements ArticleRepositoryInterface
             ]);
         }
 
-        $page = $request->input('page', 1);
+        $page = $request->input('page', 1) - 1;
         $perPage = $request->input('per_page', 10);
 
         $articleModel = $this->article->active()
-            ->where('media_id', $media->id)
+            ->where([
+                'media_id' => $media_id,
+                'has_media' => true
+            ])
             ->where(function ($query) use ($request) {
                 if ($request->has('platform')) {
                     $platform_arr = explode('#', $request->platform);
@@ -83,16 +86,15 @@ class ArticleRepository implements ArticleRepositoryInterface
                     $query->whereRaw("MATCH(contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
                 }
             })
-            // ->has('articleMedias')
-            // ->with(['articleMedias', 'articleDetail', 'articleComments'])
-            ->orderBy('date', 'DESC');
+            ->with(['articleMedias', 'articleDetail'])
+            ->orderBy('id');
 
         $articles = $articleModel->paginate($perPage);
 
         return collect(
             [
                 'totalCount' => $articles->total(),
-                'articles' => $articles->items()
+                'articles' => $articles->items(),
             ]
         );
     }

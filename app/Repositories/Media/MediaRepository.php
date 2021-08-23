@@ -17,13 +17,31 @@ class MediaRepository implements MediaRepositoryInterface
 
     public function list(Request $request): Collection
     {
-        return $this->media->get();
+        $medias = $this->media->get();
+
+        if (!count($medias) > 0) {
+            return collect([
+                'statusCode' => 404,
+                'message' => '매체 정보가 존재하지 않습니다.'
+            ]);
+        }
+
+        return $medias;
     }
 
     public function show(Request $request, int $media_id): Collection
     {
-        return $this->media->where('id', $media_id)
+        $media = $this->media->where('id', $media_id)
             ->with(['channels', 'keywords'])
-            ->get();
+            ->first();
+
+        if (!$media) {
+            return collect([
+                'statusCode' => 404,
+                'message' => '매체 정보가 존재하지 않습니다.'
+            ]);
+        }
+
+        return $media;
     }
 }
