@@ -26,7 +26,7 @@ class Article extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('state', true);
+        return $query->where('state', 1);
     }
 
     public function articleOwner(): HasOne
