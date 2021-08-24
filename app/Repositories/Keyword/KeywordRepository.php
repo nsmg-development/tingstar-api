@@ -60,6 +60,7 @@ class KeywordRepository implements KeywordRepositoryInterface
                 'media_id' => $request->media_id,
                 'keyword' => $request->keyword,
                 'platform' => $request->platform,
+                'state' => $request->state
             ]);
 
             DB::commit();
@@ -115,6 +116,7 @@ class KeywordRepository implements KeywordRepositoryInterface
             $keyword->media_id = $request->media_id;
             $keyword->keyword = $request->keyword;
             $keyword->platform = $request->platform;
+            $keyword->state = $request->state;
             $keyword->update();
 
             DB::commit();

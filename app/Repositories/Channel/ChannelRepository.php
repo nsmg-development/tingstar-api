@@ -62,6 +62,7 @@ class ChannelRepository implements ChannelRepositoryInterface
                 'platform' => $request->platform,
                 'name' => $request->name,
                 'channel' => $request->channel,
+                'state' => $request->state
             ]);
 
             DB::commit();
