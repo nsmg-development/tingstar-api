@@ -42,6 +42,6 @@ class MediaRepository implements MediaRepositoryInterface
             ]);
         }
 
-        return $media;
+        return collect($media);
     }
 }
