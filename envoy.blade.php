@@ -98,6 +98,7 @@ composer install --prefer-dist --no-scripts --no-dev;
 {{--Any additional command here--}}
 {{--e.g. php artisan clear-compiled;--}}
 cd {{ $release_dir }}/{{ $distname }} && \
+php artisan optimize:clear
 {{--  if [ ! -d ./node_modules ]; then--}}
 {{--  npm ci--}}
 {{--  else--}}
