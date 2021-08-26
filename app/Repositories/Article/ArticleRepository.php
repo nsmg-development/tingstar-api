@@ -86,7 +86,7 @@ class ArticleRepository implements ArticleRepositoryInterface
                     $query->whereRaw("MATCH(contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
                 }
             })
-            ->with(['articleMedias', 'articleDetail'])
+            ->with(['articleMedias', 'articleOwner', 'articleDetail'])
             ->orderBy('id');
 
         $articles = $articleModel->paginate($perPage);
@@ -110,7 +110,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function show(Request $request, int $article_id): Collection
     {
         $article = $this->article->where('id', $article_id)
-            ->with(['articleOwner', 'articleMedias'])
+            ->with(['articleMedias', 'articleOwner', 'articleDetail', 'articleComments'])
             ->first();
 
         if (!$article) {

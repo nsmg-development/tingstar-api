@@ -30,13 +30,16 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('client')->group(function () {
         Route::get('articles', [ArticleController::class, 'index'])->name('api.article.list');
-        Route::put('articles', [ArticleController::class, 'setMultipleState'])->name('api.article.set_multiple_state');
         Route::get('articles/{article_id}', [ArticleController::class, 'show'])->name('api.article.show');
-        Route::put('articles/{article_id}/state', [ArticleController::class, 'setState'])->name('api.article.set_state');
         Route::post('articles/{article_id}/{behavior_type}', [ArticleController::class, 'setArticleBehavior'])->name('api.article.set_behavior');
     });
 
-    // Route::middleware('auth')->group(function(){
+    Route::middleware('auth:api')->group(function(){
+        Route::prefix('articles')->group(function () {
+            Route::put('', [ArticleController::class, 'setMultipleState'])->name('api.article.set_multiple_state');
+            Route::put('/{article_id}/state', [ArticleController::class, 'setState'])->name('api.article.set_state');
+        });
+
         Route::prefix('platforms')->group(function () {
             Route::get('', [PlatformController::class, 'index'])->name('api.platform.list');
             Route::get('/{platform_id}', [PlatformController::class, 'show'])->name('api.platform.show');
@@ -61,5 +64,5 @@ Route::prefix('v1')->group(function () {
             Route::get('', [MediaController::class, 'index'])->name('api.media.list');
             Route::get('/{media_id}', [MediaController::class, 'show'])->name('api.media.show');
         });
-    // });
+    });
 });
