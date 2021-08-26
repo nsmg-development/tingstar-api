@@ -30,7 +30,7 @@ class DynamicDatabaseConnection
                 'database.connections.curator9.password' => env($connection."_PASSWORD")
             ]);
 
-            DB::purge("curator9");
+            // DB::purge("curator9");
             DB::reconnect("curator9");
         }
 
