@@ -74,6 +74,14 @@ return [
             ]) : [],
         ],
 
+        'dev' => [
+            'host' => 'dev-mysql-master.mysql.database.azure.com',
+            'port' => '3306',
+            'database' => 'curator9-dev',
+            'username' => 'tdi@dev-mysql-master',
+            'password' => 'xleldkdl!@34',
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
