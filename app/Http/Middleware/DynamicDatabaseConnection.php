@@ -30,7 +30,7 @@ class DynamicDatabaseConnection
             ]);
 
             DB::purge("curator9");
-            // DB::reconnect("curator9");
+            DB::reconnect("curator9");
         }
 
         return $next($request);
