@@ -20,7 +20,7 @@ class DynamicDatabaseConnection
     {
         if ($request->header('C9')) {
             $connection = strtoupper($request->header('C9'));
-dd(env('DEV_HOST'));
+dd(env('DEV_HOST'), config('database.connections.curator9.host'));
             Config::set([
                 'database.connections.curator9.host' => env($connection.'_HOST'),
                 'database.connections.curator9.port' => env($connection.'_PORT'),
