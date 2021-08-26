@@ -39,7 +39,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'dev-mysql-master.mysql.database.azure.com'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'curator9'),
+            'database' => env('DB_DATABASE', 'curator9-dev'),
             'username' => env('DB_USERNAME', 'tdi@dev-mysql-master'),
             'password' => env('DB_PASSWORD', 'xleldkdl!@34'),
             'unix_socket' => env('DB_SOCKET', ''),
