@@ -31,8 +31,6 @@ class DynamicDatabaseConnection
 
             DB::purge("curator9");
             // DB::reconnect("curator9");
-
-            dd(Config::get('database.connections.curator9'));
         }
 
         return $next($request);
