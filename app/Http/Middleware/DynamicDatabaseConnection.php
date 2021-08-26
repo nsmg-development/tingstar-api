@@ -19,9 +19,8 @@ class DynamicDatabaseConnection
     public function handle(Request $request, Closure $next)
     {
         if ($request->header('C9')) {
-            $connection = strtolower($request->header('C9'));
-            $config = config('database.connections.'.$connection.'.host');
-dd($config);
+            $connection = strtoupper($request->header('C9'));
+
             Config::set([
                 'database.connections.curator9.host' => env($connection.'_HOST'),
                 'database.connections.curator9.port' => env($connection.'_PORT'),
@@ -31,7 +30,9 @@ dd($config);
             ]);
 
             DB::purge("curator9");
-            DB::reconnect("curator9");
+            // DB::reconnect("curator9");
+
+            dd(Config::get('database.connections.curator9'));
         }
 
         return $next($request);
