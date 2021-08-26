@@ -23,11 +23,11 @@ class DynamicDatabaseConnection
             $connection = strtoupper($request->header('C9'));
 
             Config::set([
-                'database.connections.curator9.host' => env($connection."_HOST") ?? '',
-                'database.connections.curator9.port' => env($connection."_PORT") ?? '',
-                'database.connections.curator9.database' => env($connection."_DATABASE") ?? '',
-                'database.connections.curator9.username' => env($connection."_USERNAME") ?? '',
-                'database.connections.curator9.password' => env($connection."_PASSWORD") ?? ''
+                'database.connections.curator9.host' => env($connection."_HOST"),
+                'database.connections.curator9.port' => env($connection."_PORT"),
+                'database.connections.curator9.database' => env($connection."_DATABASE"),
+                'database.connections.curator9.username' => env($connection."_USERNAME"),
+                'database.connections.curator9.password' => env($connection."_PASSWORD")
             ]);
 
             DB::purge("curator9");
