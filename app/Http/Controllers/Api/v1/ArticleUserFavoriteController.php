@@ -22,4 +22,11 @@ class ArticleUserFavoriteController extends Controller
 
         return $this->response($result);
     }
+
+    public function setFavorite(Request $request): Response
+    {
+        $result = $this->articleUserFavorite->setFavorite($request);
+
+        return $this->response($result);
+    }
 }

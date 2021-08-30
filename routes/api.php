@@ -34,6 +34,7 @@ Route::prefix('v1')->group(function () {
         Route::post('articles/{article_id}/{behavior_type}', [ArticleController::class, 'setArticleBehavior'])->name('api.article.set_behavior');
 
         Route::get('favorites', [ArticleUserFavoriteController::class, 'index'])->name('api.favorite.list');
+        Route::post('favorites', [ArticleUserFavoriteController::class, 'setFavorite'])->name('api.favorite.set_favorite');
     });
 
     Route::middleware('auth:api')->group(function(){
