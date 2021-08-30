@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ArticleUserFavorite extends Model
 {
@@ -16,8 +16,8 @@ class ArticleUserFavorite extends Model
         'media_id', 'user_id', 'article_id'
     ];
 
-    public function articles(): HasMany
+    public function article(): HasOne
     {
-        return $this->hasMany(Article::class);
+        return $this->hasOne(Article::class, 'id', 'article_id');
     }
 }

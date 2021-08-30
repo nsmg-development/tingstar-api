@@ -25,6 +25,7 @@ class ArticleUserFavoriteRepository implements ArticleUserFavoriteRepositoryInte
         // 유효성 검사
         $validator = Validator::make($request->all(), [
             'media_id' => 'required|integer',
+            'user_id' => 'required|string',
             'page' => 'integer',
             'per_page' => 'integer'
         ]);
@@ -52,7 +53,7 @@ class ArticleUserFavoriteRepository implements ArticleUserFavoriteRepositoryInte
             'media_id' => $request->media_id,
             'user_id' => $request->user_id
         ])
-        ->with('articles')
+        ->with(['article.articleMedias', 'article.articleOwner', 'article.articleDetail'])
         ->orderByDesc('created_at');
 
         $articles = $articleUserFavorites->paginate($perPage);
@@ -60,7 +61,7 @@ class ArticleUserFavoriteRepository implements ArticleUserFavoriteRepositoryInte
         return collect(
             [
                 'totalCount' => $articles->total(),
-                'articles' => $articles->items(),
+                'favorites' => $articles->items(),
             ]
         );
     }
