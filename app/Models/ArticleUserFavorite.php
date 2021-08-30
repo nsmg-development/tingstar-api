@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ArticleUserFavorite extends Model
 {
@@ -14,4 +15,9 @@ class ArticleUserFavorite extends Model
     protected $fillable = [
         'media_id', 'user_id', 'article_id'
     ];
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
 }

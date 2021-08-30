@@ -6,6 +6,7 @@ use App\Repositories\Article\ArticleDetailRepository;
 use App\Repositories\Article\ArticleDetailRepositoryInterface;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\Article\ArticleRepository;
+use App\Repositories\Article\ArticleUserFavoriteRepositoryInterface;
 use App\Repositories\Channel\ChannelRepository;
 use App\Repositories\Channel\ChannelRepositoryInterface;
 use App\Repositories\Keyword\KeywordRepository;
@@ -18,6 +19,7 @@ use App\Repositories\Platform\PlatformRepository;
 use App\Repositories\Platform\PlatformRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\Article\ArticleUserFavoriteRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -37,6 +39,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(KeywordRepositoryInterface::class, KeywordRepository::class);
         $this->app->bind(ArticleDetailRepositoryInterface::class, ArticleDetailRepository::class);
         $this->app->bind(MediaRepositoryInterface::class, MediaRepository::class);
+        $this->app->bind(ArticleUserFavoriteRepositoryInterface::class, ArticleUserFavoriteRepository::class);
     }
 
     /**
