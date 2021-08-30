@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\v1\ArticleController;
+use App\Http\Controllers\Api\v1\ArticleUserFavoriteController;
 use App\Http\Controllers\Api\v1\ChannelController;
 use App\Http\Controllers\Api\v1\KeywordController;
 use App\Http\Controllers\Api\v1\MediaController;
 use App\Http\Controllers\Api\v1\PlatformAccountController;
 use App\Http\Controllers\Api\v1\PlatformController;
 use App\Http\Controllers\Api\v1\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +32,9 @@ Route::prefix('v1')->group(function () {
         Route::get('articles', [ArticleController::class, 'index'])->name('api.article.list');
         Route::get('articles/{article_id}', [ArticleController::class, 'show'])->name('api.article.show');
         Route::post('articles/{article_id}/{behavior_type}', [ArticleController::class, 'setArticleBehavior'])->name('api.article.set_behavior');
+
+        Route::get('favorites', [ArticleUserFavoriteController::class, 'index'])->name('api.favorite.list');
+        Route::post('favorites', [ArticleUserFavoriteController::class, 'setFavorite'])->name('api.favorite.set_favorite');
     });
 
     Route::middleware('auth:api')->group(function(){
