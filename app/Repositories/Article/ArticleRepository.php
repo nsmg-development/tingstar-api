@@ -6,8 +6,10 @@ use App\Models\Article;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Passport\Passport;
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
@@ -47,6 +49,12 @@ class ArticleRepository implements ArticleRepositoryInterface
             ]);
         }
 
+        // admin 체크
+        $isAdmin = false;
+        if ($request->is('admin/*') || Auth::user()) {
+            $isAdmin = true;
+        }
+
         $media_id = $request->input('media_id', null);
         $media_idx = $request->input('media_idx', null);
         $media = $this->media->where(function ($query) use ($media_id, $media_idx) {
@@ -68,7 +76,7 @@ class ArticleRepository implements ArticleRepositoryInterface
         $page = $request->input('page', 1) - 1;
         $perPage = $request->input('per_page', 10);
 
-        $articleModel = $this->article->active()
+        $articleModel = $this->article->active($isAdmin)
             ->where([
                 'media_id' => $media_id,
                 'has_media' => true

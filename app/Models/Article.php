@@ -24,9 +24,11 @@ class Article extends Model
         'created_at', 'updated_at'
     ];
 
-    public function scopeActive($query)
+    public function scopeActive($query, bool $isAdmin = false)
     {
-        return $query->where('state', 1);
+        if (!$isAdmin) {
+            return $query->where('state', 1);
+        }
     }
 
     public function articleOwner(): HasOne

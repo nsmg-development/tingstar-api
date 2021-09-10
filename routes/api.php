@@ -38,6 +38,8 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:api')->group(function(){
+        Route::get('admin/articles', [ArticleController::class, 'index'])->name('api.article.list');
+
         Route::prefix('articles')->group(function () {
             Route::put('', [ArticleController::class, 'setMultipleState'])->name('api.article.set_multiple_state');
             Route::put('/{article_id}/state', [ArticleController::class, 'setState'])->name('api.article.set_state');
