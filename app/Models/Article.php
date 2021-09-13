@@ -50,4 +50,9 @@ class Article extends Model
     {
         return $this->hasOne(ArticleDetail::class, 'article_id', 'id');
     }
+
+    public function articleUserFavorite(): HasOne
+    {
+        return $this->hasOne(ArticleUserFavorite::class, 'article_id', 'id');
+    }
 }
