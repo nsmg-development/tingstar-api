@@ -3,6 +3,7 @@
 namespace App\Repositories\Article;
 
 use App\Models\Article;
+use App\Models\ArticleUserFavorite;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -16,11 +17,13 @@ class ArticleRepository implements ArticleRepositoryInterface
     protected Collection $result;
     protected Media $media;
     protected Article $article;
+    protected ArticleUserFavorite $articleUserFavorite;
 
-    public function __construct(Media $media, Article $article)
+    public function __construct(Media $media, Article $article, ArticleUserFavorite $articleUserFavorite)
     {
         $this->media = $media;
         $this->article = $article;
+        $this->articleUserFavorite = $articleUserFavorite;
     }
 
     /**
@@ -98,6 +101,15 @@ class ArticleRepository implements ArticleRepositoryInterface
             ->orderBy('id');
 
         $articles = $articleModel->paginate($perPage);
+
+        // 즐겨찾기 확인
+        $articleUserFavorites = collect($this->articleUserFavorite
+            ->where(['media_id' => $media_id, 'user_id' => $request->user_id])
+            ->get('article_id'))->groupBy('article_id')->keys();
+
+        collect($articles->items())->map(function($item) use ($articleUserFavorites){
+            $item->is_favorite = $articleUserFavorites->contains($item->id);
+        });
 
         return collect(
             [
