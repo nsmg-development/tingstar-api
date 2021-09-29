@@ -3,6 +3,7 @@
 namespace App\Repositories\Article;
 
 use App\Models\Article;
+use App\Models\ArticleDetailLog;
 use App\Models\ArticleUserFavorite;
 use App\Models\Media;
 use Illuminate\Http\Request;
@@ -18,12 +19,19 @@ class ArticleRepository implements ArticleRepositoryInterface
     protected Media $media;
     protected Article $article;
     protected ArticleUserFavorite $articleUserFavorite;
+    protected ArticleDetailLog $articleDetailLog;
 
-    public function __construct(Media $media, Article $article, ArticleUserFavorite $articleUserFavorite)
+    public function __construct(
+        Media $media,
+        Article $article,
+        ArticleUserFavorite $articleUserFavorite,
+        ArticleDetailLog $articleDetailLog
+    )
     {
         $this->media = $media;
         $this->article = $article;
         $this->articleUserFavorite = $articleUserFavorite;
+        $this->articleDetailLog = $articleDetailLog;
     }
 
     /**
@@ -107,8 +115,14 @@ class ArticleRepository implements ArticleRepositoryInterface
             ->where(['media_id' => $media_id, 'user_id' => $request->user_id])
             ->get('article_id'))->groupBy('article_id')->keys();
 
-        collect($articles->items())->map(function($item) use ($articleUserFavorites){
+        // 좋아요 확인
+        $articleDetailLogs = collect($this->articleDetailLog
+            ->where(['media_id' => $media_id, 'user_id' => $request->user_id, 'type' => 'like'])
+            ->get('article_id'))->groupBy('article_id')->keys();
+
+        collect($articles->items())->map(function($item) use ($articleUserFavorites, $articleDetailLogs){
             $item->is_favorite = $articleUserFavorites->contains($item->id);
+            $item->is_like = $articleDetailLogs->contains($item->id);
         });
 
         return collect(
@@ -132,6 +146,19 @@ class ArticleRepository implements ArticleRepositoryInterface
         $article = $this->article->where('id', $article_id)
             ->with(['articleMedias', 'articleOwner', 'articleDetail', 'articleComments'])
             ->first();
+
+        // 즐겨찾기 확인
+        $articleUserFavorite = $this->articleUserFavorite
+            ->where(['media_id' => $article->media_id, 'article_id' => $article->id, 'user_id' => $request->user_id])
+            ->first();
+
+        // 좋아요 확인
+        $articleDetailLog = $this->articleDetailLog
+            ->where(['media_id' => $article->media_id, 'article_id' => $article->id, 'user_id' => $request->user_id, 'type' => 'like'])
+            ->first();
+
+        $article->is_favorite = (bool) $articleUserFavorite;
+        $article->is_like = (bool) $articleDetailLog;
 
         if (!$article) {
             return collect([

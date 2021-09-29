@@ -12,7 +12,7 @@ class ArticleDetailLog extends Model
     protected $connection = 'curator9';
 
     protected $fillable = [
-        'article_id', 'user_id', 'type'
+        'media_id', 'article_id', 'user_id', 'type'
     ];
 
     protected $hidden = [

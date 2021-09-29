@@ -38,7 +38,8 @@ class ArticleDetailRepository implements ArticleDetailRepositoryInterface
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer'
+            'media_id' => 'required|integer',
+            'user_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -60,9 +61,13 @@ class ArticleDetailRepository implements ArticleDetailRepositoryInterface
 
         $articleDetailLogType = ArticleDetailLogType::getValueByName($behavior_type);
 
-        $articleDetail = $this->articleDetail->where('article_id', $article_id)->first();
+        $articleDetail = $this->articleDetail->where([
+            'media_id' => $request->media_id,
+            'article_id' => $article_id
+        ])->first();
         $articleDetailLog = $this->articleDetailLog->where([
-            'article_id' => $request->article_id,
+            'media_id' => $request->media_id,
+            'article_id' => $article_id,
             'user_id' => $request->user_id,
             'type' => $articleDetailLogType
         ])->first();
@@ -73,6 +78,7 @@ class ArticleDetailRepository implements ArticleDetailRepositoryInterface
             // 수집내용에 대한 관계 테이블이 없다면 생성
             if (!$articleDetail) {
                 $articleDetail = $this->articleDetail->create([
+                    'media_id' => $request->media_id,
                     'article_id' => $article_id
                 ]);
             }
@@ -85,7 +91,8 @@ class ArticleDetailRepository implements ArticleDetailRepositoryInterface
             } else {
                 // 좋아요 한 이력이 없다면 로그에서 추가 후 좋아요 +1
                 $this->articleDetailLog->create([
-                    'article_id' => $request->article_id,
+                    'media_id' => $request->media_id,
+                    'article_id' => $article_id,
                     'user_id' => $request->user_id,
                     'type' => $articleDetailLogType
                 ]);
