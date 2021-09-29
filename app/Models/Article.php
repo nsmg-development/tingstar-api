@@ -61,6 +61,11 @@ class Article extends Model
         return $value ?? '';
     }
 
+    public function getThumbnailUrlAttribute($value): string
+    {
+        return $value ?? '';
+    }
+
     public function getThumbnailWidthAttribute($value): int
     {
         return $value ?? 0;
@@ -69,5 +74,10 @@ class Article extends Model
     public function getThumbnailHeightAttribute($value): int
     {
         return $value ?? 0;
+    }
+
+    public function getMimeAttribute($value): string
+    {
+        return $value ?? '';
     }
 }
