@@ -12,7 +12,7 @@ class ArticleDetail extends Model
     protected $connection = 'curator9';
 
     protected $fillable = [
-        'article_id', 'like', 'dislike', 'report'
+        'media_id', 'article_id', 'like', 'dislike', 'report'
     ];
 
     protected $hidden = [

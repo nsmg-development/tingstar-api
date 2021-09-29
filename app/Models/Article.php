@@ -55,4 +55,19 @@ class Article extends Model
     {
         return $this->hasOne(ArticleUserFavorite::class, 'article_id', 'id');
     }
+
+    public function getStorageThumbnailUrlAttribute($value): string
+    {
+        return $value ?? '';
+    }
+
+    public function getThumbnailWidthAttribute($value): int
+    {
+        return $value ?? 0;
+    }
+
+    public function getThumbnailHeightAttribute($value): int
+    {
+        return $value ?? 0;
+    }
 }

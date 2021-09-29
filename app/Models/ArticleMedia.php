@@ -22,4 +22,29 @@ class ArticleMedia extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
+
+    public function getStorageUrlAttribute($value): string
+    {
+        return $value ?? '';
+    }
+
+    public function getUrlAttribute($value): string
+    {
+        return $value ?? '';
+    }
+
+    public function getWidthAttribute($value): int
+    {
+        return $value ?? 0;
+    }
+
+    public function getHeightAttribute($value): int
+    {
+        return $value ?? 0;
+    }
+
+    public function getMimeAttribute($value): string
+    {
+        return $value ?? '';
+    }
 }
