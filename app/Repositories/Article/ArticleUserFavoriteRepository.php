@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Article;
 
+use App\Models\ArticleDetailLog;
 use App\Models\ArticleUserFavorite;
 use App\Models\Media;
 use Illuminate\Http\Request;
@@ -13,11 +14,13 @@ class ArticleUserFavoriteRepository implements ArticleUserFavoriteRepositoryInte
 {
     protected Media $media;
     protected ArticleUserFavorite $articleUserFavorite;
+    protected ArticleDetailLog $articleDetailLog;
 
-    public function __construct(Media $media, ArticleUserFavorite $articleUserFavorite)
+    public function __construct(Media $media, ArticleUserFavorite $articleUserFavorite, ArticleDetailLog $articleDetailLog)
     {
         $this->media = $media;
         $this->articleUserFavorite = $articleUserFavorite;
+        $this->articleDetailLog = $articleDetailLog;
     }
 
     public function list(Request $request): Collection
@@ -57,6 +60,15 @@ class ArticleUserFavoriteRepository implements ArticleUserFavoriteRepositoryInte
         ->orderByDesc('created_at');
 
         $articles = $articleUserFavorites->paginate($perPage);
+
+        // 좋아요 확인
+        $articleDetailLogs = collect($this->articleDetailLog
+            ->where(['media_id' => $media_id, 'user_id' => $request->user_id, 'type' => 'like'])
+            ->get('article_id'))->groupBy('article_id')->keys();
+
+        collect($articles->items())->map(function($item) use ($articleDetailLogs){
+            $item->is_like = $articleDetailLogs->contains($item->article_id);
+        });
 
         return collect(
             [
