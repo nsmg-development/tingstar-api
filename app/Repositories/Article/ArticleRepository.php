@@ -92,7 +92,17 @@ class ArticleRepository implements ArticleRepositoryInterface
                 'media_id' => $media_id,
                 'has_media' => true
             ])
-            ->where(function ($query) use ($request) {
+            ->where(function ($query) use ($request, $isAdmin) {
+                if ($isAdmin) {
+                    if ($request->has('state')) {
+                        $query->where('state', $request->state);
+                    }
+
+                    if ($request->has('channel')) {
+                        $query->where('channel', $request->channel);
+                    }
+                }
+
                 if ($request->has('platform')) {
                     $platform_arr = explode('#', $request->platform);
                     unset($platform_arr[0]);
