@@ -122,7 +122,7 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         collect($articles->items())->map(function($item) use ($articleUserFavorites, $articleDetailLogs){
             $item->is_favorite = $articleUserFavorites->contains($item->id);
-            $item->is_like = $articleDetailLogs->contains($item->article_id);
+            $item->is_like = $articleDetailLogs->contains($item->id);
         });
 
         return collect(
