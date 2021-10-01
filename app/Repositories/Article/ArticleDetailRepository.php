@@ -39,7 +39,7 @@ class ArticleDetailRepository implements ArticleDetailRepositoryInterface
         // 유효성 검사
         $validator = Validator::make($request->all(), [
             'media_id' => 'required|integer',
-            'user_id' => 'required|integer',
+            'user_id' => 'required|string',
         ]);
 
         if ($validator->fails()) {
