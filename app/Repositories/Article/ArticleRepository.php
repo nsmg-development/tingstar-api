@@ -98,8 +98,8 @@ class ArticleRepository implements ArticleRepositoryInterface
                         $query->where('state', $request->state);
                     }
 
-                    if ($request->has('channel')) {
-                        $query->where('channel', $request->channel);
+                    if ($request->has('type')) {
+                        $query->where('type', $request->channel);
                     }
                 }
 
