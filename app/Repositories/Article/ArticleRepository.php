@@ -99,7 +99,7 @@ class ArticleRepository implements ArticleRepositoryInterface
                     }
 
                     if ($request->has('type')) {
-                        $query->where('type', $request->channel);
+                        $query->where('type', $request->type);
                     }
                 }
 
