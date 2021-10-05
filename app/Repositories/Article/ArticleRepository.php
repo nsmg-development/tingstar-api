@@ -97,6 +97,8 @@ class ArticleRepository implements ArticleRepositoryInterface
                 $type = $request->input('type', null);
                 $platform = $request->input('platform', null);
                 $search = $request->input('search', null);
+                $startDate = $request->input('start_date', null);
+                $endDate = $request->input('end_date', null);
 
                 if ($isAdmin) {
                     if (!is_null($state) && $state !== '') {
@@ -118,6 +120,10 @@ class ArticleRepository implements ArticleRepositoryInterface
                     unset($search_arr[0]);
 
                     $query->whereRaw("MATCH(contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
+                }
+
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
                 }
             })
             ->with(['articleMedias', 'articleOwner', 'articleDetail'])
