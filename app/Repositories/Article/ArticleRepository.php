@@ -99,7 +99,7 @@ class ArticleRepository implements ArticleRepositoryInterface
                 $search = $request->input('search', null);
 
                 if ($isAdmin) {
-                    if ($request->has('state') || $state !== '') {
+                    if (!is_null($state) && $state !== '') {
                         $query->where('state', $state);
                     }
 
