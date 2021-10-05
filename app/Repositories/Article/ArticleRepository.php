@@ -49,8 +49,8 @@ class ArticleRepository implements ArticleRepositoryInterface
             'media_idx' => 'integer',
             'page' => 'integer',
             'per_page' => 'integer',
-            'platform' => 'string',
-            'search' => 'string',
+            // 'platform' => 'string',
+            // 'search' => 'string',
         ]);
 
         if ($validator->fails()) {
@@ -95,6 +95,8 @@ class ArticleRepository implements ArticleRepositoryInterface
             ->where(function ($query) use ($request, $isAdmin) {
                 $state = $request->input('state', null);
                 $type = $request->input('type', null);
+                $platform = $request->input('platform', null);
+                $search = $request->input('search', null);
 
                 if ($isAdmin) {
                     if ($state) {
@@ -106,13 +108,13 @@ class ArticleRepository implements ArticleRepositoryInterface
                     }
                 }
 
-                if ($request->has('platform')) {
-                    $platform_arr = explode('#', $request->platform);
+                if ($platform) {
+                    $platform_arr = explode('#', $platform);
                     unset($platform_arr[0]);
                     $query->whereIn('platform', $platform_arr);
                 }
-                if ($request->has('search')) {
-                    $search_arr = explode('#', $request->search);
+                if ($search) {
+                    $search_arr = explode('#', $search);
                     unset($search_arr[0]);
 
                     $query->whereRaw("MATCH(contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
