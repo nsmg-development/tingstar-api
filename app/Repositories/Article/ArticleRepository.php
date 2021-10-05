@@ -93,13 +93,16 @@ class ArticleRepository implements ArticleRepositoryInterface
                 'has_media' => true
             ])
             ->where(function ($query) use ($request, $isAdmin) {
+                $state = $request->input('state', null);
+                $type = $request->input('type', null);
+
                 if ($isAdmin) {
-                    if ($request->has('state')) {
-                        $query->where('state', $request->state);
+                    if ($state) {
+                        $query->where('state', $state);
                     }
 
-                    if ($request->has('type')) {
-                        $query->where('type', $request->type);
+                    if ($type) {
+                        $query->where('type', $type);
                     }
                 }
 
