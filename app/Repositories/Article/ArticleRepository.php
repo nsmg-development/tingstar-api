@@ -51,6 +51,8 @@ class ArticleRepository implements ArticleRepositoryInterface
             'per_page' => 'integer',
             // 'platform' => 'string',
             // 'search' => 'string',
+            'start_date' => 'string',
+            'end_date' => 'string'
         ]);
 
         if ($validator->fails()) {
