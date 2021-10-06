@@ -10,7 +10,7 @@ class Media extends Model
 {
     use HasFactory;
 
-    protected $connection = 'curator9';
+    protected $connection = 'curator9-common';
     protected $table = 'medias';
 
     protected $hidden = [

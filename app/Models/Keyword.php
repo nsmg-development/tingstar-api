@@ -9,7 +9,7 @@ class Keyword extends Model
 {
     use HasFactory;
 
-    protected $connection = 'curator9';
+    protected $connection = 'curator9-common';
 
     protected $fillable = [
         'media_id', 'keyword', 'platform', 'state'

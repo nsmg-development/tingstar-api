@@ -10,7 +10,7 @@ class PlatformAccount extends Model
 {
     use HasFactory;
 
-    protected $connection = 'curator9';
+    protected $connection = 'curator9-common';
 
     protected $fillable = [
         'platform_id', 'login_id', 'login_password', 'token', 'user_id', 'state', 'use_count'
