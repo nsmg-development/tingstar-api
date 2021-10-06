@@ -9,7 +9,7 @@ class Channel extends Model
 {
     use HasFactory;
 
-    protected $connection = 'curator9';
+    protected $connection = 'curator9-common';
 
     protected $fillable = [
         'media_id', 'platform', 'name', 'channel', 'state'
