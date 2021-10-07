@@ -121,7 +121,7 @@ class ArticleRepository implements ArticleRepositoryInterface
                     $search_arr = explode('#', $search);
                     unset($search_arr[0]);
 
-                    $query->whereRaw("MATCH(contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
+                    $query->whereRaw("MATCH(title, contents, hashtag) AGAINST(? IN BOOLEAN MODE)", array($search_arr));
                 }
 
                 if ($startDate && $endDate) {
