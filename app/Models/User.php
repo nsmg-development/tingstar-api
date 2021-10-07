@@ -14,6 +14,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $connection = 'curator9-common';
     /**
      * The attributes that are mass assignable.
      *
