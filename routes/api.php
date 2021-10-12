@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\v1\ArticleController;
 use App\Http\Controllers\Api\v1\ArticleUserFavoriteController;
 use App\Http\Controllers\Api\v1\ChannelController;
+use App\Http\Controllers\Api\v1\JobController;
 use App\Http\Controllers\Api\v1\KeywordController;
 use App\Http\Controllers\Api\v1\MediaController;
 use App\Http\Controllers\Api\v1\PlatformAccountController;
@@ -39,6 +40,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:api')->group(function(){
         Route::get('admin/articles', [ArticleController::class, 'index'])->name('api.article.list');
+        Route::post('admin/command-jobs', [JobController::class, 'store'])->name('api.command_jobs.store');
 
         Route::prefix('articles')->group(function () {
             Route::put('', [ArticleController::class, 'setMultipleState'])->name('api.article.set_multiple_state');
